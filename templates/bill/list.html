@@ -1,0 +1,16 @@
+{% extends 'bill/base.html' %}
+{% load bootstrap4 django_tables2 %}
+{% bootstrap_css %}         {# Embed Bootstrap CSS #}
+{% bootstrap_javascript jquery='full' %}  {# Embed Bootstrap JS+jQuery #}
+  {% block content%}
+   <h2>{{ title }}</h2>
+   <br>
+   <!-- on affiche un bouton pour ajouter un client -->
+   <a href="{{ URLCreat }}" class="btn btn-primary">Ajouter {{ object }}</a>
+   <br><br>
+   <div class="col-lg-12">
+   <!-- on affiche les lignes de la table des clients -->
+	 {% render_table table %}
+   </div>
+  {% endblock %}
+ 

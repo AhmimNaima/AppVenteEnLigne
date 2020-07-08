@@ -1,0 +1,17 @@
+{% extends 'bill/base.html' %}
+{% load bootstrap4 django_tables2 %}
+{% bootstrap_css %} {# Embed Bootstrap CSS #}
+{% bootstrap_javascript jquery='full' %} {# Embed Bootstrap JS+jQuery #}
+
+
+{% block content%}
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <h2>{{ title }}</h2>
+    <br>
+    <div class="col-lg-12">
+        <!-- on affiche les lignes de la table des clients -->
+        {% render_table table %}
+    </div>
+
+
+{% endblock %}

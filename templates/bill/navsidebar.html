@@ -1,0 +1,32 @@
+<ul class="nav list-group">
+	{% if user.is_authenticated  %}
+	<li>
+		<a class="list-group-item" href="{% url 'commandes' %}">Commandes</a>
+	</li>
+	{% if user.user_type == 1 %}
+	<li>
+		<a class="list-group-item" href="{% url 'produits_client' %}">Produits</a>
+	</li>
+	<li>
+    	<a class="list-group-item" href="{% url 'panier' %}">Mon Panier</a>
+	</li>
+	<li>
+		<a class="list-group-item" href="{% url 'facture_table' pk=user.client.pk %}">Mes Factures</a>
+	</li>
+	{% elif user.user_type == 0  %}
+	<li>
+		<a class="list-group-item" href="{% url 'produits' %}">Produits</a>
+	</li>
+	<li>
+			<a class="list-group-item" href="{% url 'client' %}">Clients</a>
+	</li>
+	<li>
+			<a class="list-group-item" href="{% url 'fournisseur' %}">Fournisseurs</a>
+	</li>
+	<li>
+		<a class="list-group-item" href="{% url 'Dash' %}">Dashboard</a>
+	</li>
+	{% endif %}
+	{% endif %}
+
+</ul>
