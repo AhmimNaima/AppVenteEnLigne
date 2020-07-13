@@ -459,7 +459,7 @@ class ProduitDeleteView(DeleteView):
 
 
 @login_required
-def ajouter_panier_view(request, pk):
+def ajouter_panier(request, pk):
     context={}
     if request.method == 'GET':
         produit = get_object_or_404(Produit, id=pk)
@@ -467,17 +467,6 @@ def ajouter_panier_view(request, pk):
         return render(request, 'bill/Add_panier.html', context)
     elif request.method == 'POST':
         produit = get_object_or_404(Produit, id=pk)
-        if 'qte' not in request.POST:
-            qte = 1
-        else:
-            qte = int(request.POST['qte'])
-            if qte < 0:
-                qte = 1
-
-        if 'panier' not in request.session:
-            request.session['panier'] = {}
-        request.session['panier'][int(pk)] = qte
-        request.session.modified = True
         return HttpResponseRedirect(reverse('produits_client'))
 
 
@@ -491,37 +480,6 @@ class PanierTable(tables.Table):
         template_name = "django_tables2/bootstrap4.html"
         fields = ('produit','qte','prix')
 
-@login_required
-def panier_detail_view(request):
-    panier = []
-    context = {}
-
-    if 'panier' in request.session:
-        for pk,qte in request.session['panier'].items():
-            produit = get_object_or_404(Produit, id=pk)
-            panier.append({"produit":produit,"qte":qte,"prix":produit.prix})
-
-    table = PanierTable(panier)
-    RequestConfig(request, paginate={"per_page": 5}).configure(table)
-    context['table'] = table
-    context['title'] = 'Mon panier'
-
-    return render(request, 'bill/panier.html', context)
-
-
-@login_required
-def confirme_panier_view(request):
-
-    if 'panier' in request.session and len(request.session['panier']) > 0:
-        commande = Commande.objects.create(client=request.user.client)
-        for pk,qte in request.session['panier'].items():
-            produit = get_object_or_404(Produit, id=pk)
-            LigneCommande.objects.create(produit=produit,qte=qte,commande=commande)
-        request.session['panier'] = {}
-        request.session.modified = True
-    
-    return HttpResponseRedirect(reverse('commandes'))
-    
 
 #----------------Gestion Commandes ------------------------------
 
