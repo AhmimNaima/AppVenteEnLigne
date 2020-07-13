@@ -457,7 +457,7 @@ class ProduitDeleteView(DeleteView):
  
 
 
-
+#Ajouter un produit aux panier
 @login_required
 def ajouter_panier(request, pk):
     context={}
@@ -467,9 +467,9 @@ def ajouter_panier(request, pk):
         return render(request, 'bill/Add_panier.html', context)
     elif request.method == 'POST':
         produit = get_object_or_404(Produit, id=pk)
-        return HttpResponseRedirect(reverse('produits_client'))
+ return HttpResponseRedirect(reverse('produits_client'))
 
-
+#Afficher la table panier
 class PanierTable(tables.Table):
 
     produit = tables.Column()
